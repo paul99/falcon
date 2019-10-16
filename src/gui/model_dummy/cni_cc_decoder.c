@@ -538,7 +538,8 @@ int start_cni_decoder() {
     return false;
   }
 
-  if (falcon_ue_dl_init(&falcon_ue_dl, &ue_dl, sf_buffer, cell.nof_prb, prog_args.rf_nof_rx_ant, "", "")) {
+  // pl todo: create dci file name based on date/time, so we don't overwrite.
+  if (falcon_ue_dl_init(&falcon_ue_dl, &ue_dl, sf_buffer, cell.nof_prb, prog_args.rf_nof_rx_ant, "pl-dci.log", "")) {
     //if (srslte_ue_dl_init(&ue_dl, sf_buffer, cell.nof_prb, prog_args.rf_nof_rx_ant)) {
     fprintf(stderr, "Error initiating UE downlink processing module\n");
     return false;

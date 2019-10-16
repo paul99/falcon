@@ -149,18 +149,18 @@ int srslte_dci_msg_to_trace_timestamp(srslte_dci_msg_t *msg,
         if (crc_is_crnti == true) {
           if (ul_dci->mcs_idx < 29) {
 #ifdef ENABLE_DCI_LOGGING
-            fprintf(dci_file, "%ld.%06ld\t%04d\t%d\t%d\t0\t"
-                            "%d\t%d\t%d\t%d\t%d\t"
+            fprintf(dci_file, "UL  %ld.%06ld\t%04d\t%d\t%5d\t0\t"
+                            "%d\t%d\t%5d\t%d\t%d\t"
                             "0\t%d\t-1\t%d\t"
                             "%d\t%d\t%d\t%d\n", timestamp.tv_sec, timestamp.tv_usec, sfn, sf_idx, msg_rnti,
-                    ul_grant->mcs.idx, ul_grant->L_prb, ul_grant->mcs.tbs, -1, -1,
+                    ul_grant->mcs.idx, ul_grant->L_prb, ul_grant->mcs.tbs, ul_grant->n_prb[0], -1,
                     ul_dci->ndi, (10*sfn+sf_idx)%8,
-                    ncce, aggregation, cfi, histval);
+                    ncce, aggregation, cfi, histval);  // pl: ul_grant->n_prb[0] is start RB, cast to 'int'
 #endif
           }
           else {
 #ifdef ENABLE_DCI_LOGGING
-            fprintf(dci_file, "%ld.%06ld\t%04d\t%d\t%d\t0\t"
+            fprintf(dci_file, "UNSUPPORTED-pl: %ld.%06ld\t%04d\t%d\t%d\t0\t"
                             "%d\t%d\t%d\t%d\t%d\t"
                             "0\t%d\t-1\t%d\t"
                             "%d\t%d\t%d\t%d\n", timestamp.tv_sec, timestamp.tv_usec, sfn, sf_idx, msg_rnti,
@@ -227,8 +227,8 @@ int srslte_dci_msg_to_trace_timestamp(srslte_dci_msg_t *msg,
         case SRSLTE_DCI_FORMAT1B:
         case SRSLTE_DCI_FORMAT1D:
 #ifdef ENABLE_DCI_LOGGING
-          fprintf(dci_file, "%ld.%06ld\t%04d\t%d\t%d\t1\t"
-                          "%d\t%d\t%d\t%d\t%d\t"
+          fprintf(dci_file, "DL1 %ld.%06ld\t%04d\t%d\t%5d\t1\t"
+                          "%d\t%d\t%5d\t%d\t%d\t"
                           "%d\t%d\t%d\t%d\t"
                           "%d\t%d\t%d\t%d\n", timestamp.tv_sec, timestamp.tv_usec, sfn, sf_idx, msg_rnti,
                   dl_grant->mcs[0].idx, dl_grant->nof_prb, dl_grant->mcs[0].tbs, -1, -1,
@@ -240,8 +240,8 @@ int srslte_dci_msg_to_trace_timestamp(srslte_dci_msg_t *msg,
         case SRSLTE_DCI_FORMAT2A:
         case SRSLTE_DCI_FORMAT2B:
 #ifdef ENABLE_DCI_LOGGING
-          fprintf(dci_file, "%ld.%06ld\t%04d\t%d\t%d\t1\t"
-                          "%d\t%d\t%d\t%d\t%d\t"
+          fprintf(dci_file, "DL2 %ld.%06ld\t%04d\t%d\t%5d\t1\t"
+                          "%d\t%d\t%5d\t%d\t%d\t"
                           "%d\t%d\t%d\t%d\t"
                           "%d\t%d\t%d\t%d\n", timestamp.tv_sec, timestamp.tv_usec, sfn, sf_idx, msg_rnti,
                   dl_grant->mcs[0].idx, dl_grant->nof_prb, dl_grant->mcs[0].tbs + dl_grant->mcs[1].tbs, dl_grant->mcs[0].tbs, dl_grant->mcs[1].tbs,
